@@ -13,10 +13,10 @@
     <div class="col-12">
         <div class="card">
           <div class="card-body">
-            <h4 class="card-title">Agregar contacto</h4>
-
-            <app-contact-form></app-contact-form>
-
+            <h4 class="card-title text-center">Agregar contacto</h4>
+            <div class="d-flex justify-content-center">
+              <app-contact-form [maxCaracters]="50"></app-contact-form>
+            </div>
           </div>
         </div>
       </div>

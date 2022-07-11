@@ -29,7 +29,6 @@ import { ContactVistaComponent } from './components/contacto/contact-vista/conta
 import { ContactFormModule } from './components/contacto/contact-form/contact-form.module';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,10 +49,12 @@ import { ContactFormModule } from './components/contacto/contact-form/contact-fo
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    ContactFormModule
-    
+    ContactFormModule.forRoot({
+      URL: 'pruebaURL',
+      _baseURL: '',
+    }),
   ],
-  providers: [],
+  //providers: [FormService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

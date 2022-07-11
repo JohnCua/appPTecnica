@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ContactFormService } from './contact-form.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-contact-form',
@@ -8,20 +9,50 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class ContactFormComponent implements OnInit {
 
-  contactoForm:FormGroup = new FormGroup({
-    nombre: new FormControl('', Validators.required),
-    correo: new FormControl('', Validators.required),
-    telefono: new FormControl('', Validators.required),
-    mensaje: new FormControl('', Validators.required)
+  contactoForm = this.formBuilder.group({
+    nombre:  ['', [Validators.required]],
+    correo:  ['', [Validators.required, Validators.email]],
+    telefono:  ['', [Validators.required, Validators.maxLength(10)]],
+    mensaje:  ['', Validators.required]
   });
 
-  constructor() { }
+  submitted = false;
+
+  url:any
+
+  @Input('maxCaracters') maxCaracters: number;
+
+  constructor(private formBuilder: FormBuilder, private contactFormService:ContactFormService ) { }
 
   ngOnInit(): void {
+    this.prueba()
   }
 
   submitForm() {
-    console.log(this.contactoForm.value);
+    this.submitted = true;
+
+    // this.contactFormService.postContactoForulario(this.contactoForm.value).subscribe((respuesta)=> {
+    //   console.log('respuesta')
+    // })
+   
   }
+
+  get f() {
+    return this.contactoForm.controls;
+  }
+
+  getErrorMessage(campo:any,tex1:string, text2?:string) {
+    if (this.contactoForm.get(campo).hasError('required')) {
+      return `${tex1}`;
+    }
+
+    return this.contactoForm.get(campo).hasError('email') ? `${text2}` : '';
+  }
+
+  prueba() {
+    this.url = this.contactFormService.URL
+    console.log(this.url)
+  }
+
 
 }

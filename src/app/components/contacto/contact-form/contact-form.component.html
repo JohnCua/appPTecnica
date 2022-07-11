@@ -3,30 +3,39 @@
       
             <mat-form-field appearance="fill" class="example-full-width">
                 <mat-label>Nombre</mat-label>
-                <input matInput formControlName="nombre">
+                <input matInput formControlName="nombre" onkeydown="return /^[A-Za-z0-9\s]+$/g.test(event.key)">
+    
+                <mat-error *ngIf="f['nombre']?.invalid">{{getErrorMessage('nombre','Ingrese un nombre')}}</mat-error>
+            
             </mat-form-field>
    
    
             <mat-form-field appearance="fill" class="example-full-width">
                 <mat-label>Correo</mat-label>
                 <input matInput formControlName="correo">
+                <div *ngIf="f['correo']?.dirty || submitted">
+                    <mat-error *ngIf="f['correo']?.invalid">{{getErrorMessage('correo','Ingrese un correo', 'Correo no valido')}}</mat-error>
+                </div>
+               
             </mat-form-field>
-
-    
 
             <mat-form-field appearance="fill" class="example-full-width">
                 <mat-label>Telefono</mat-label>
-                <input matInput formControlName="telefono">
+                <input matInput formControlName="telefono"   maxlength="10"  type="number" >
+                <span matPrefix>+</span>
+                <mat-error *ngIf="f['telefono']?.invalid">{{getErrorMessage('telefono','Ingrese un numero telefonico')}}</mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="example-full-width">
+            <mat-form-field hintLabel="Maximo de caracteres {{maxCaracters}}" appearance="fill" class="example-full-width">
                 <mat-label>Mensaje</mat-label>
-                <textarea matInput formControlName="mensaje"></textarea>
+                <textarea matInput #input maxlength="{{maxCaracters}}" formControlName="mensaje"></textarea>
+                <mat-hint align="end">{{input.value?.length || 0}}/{{maxCaracters}}</mat-hint>
+                <mat-error *ngIf="f['mensaje']?.invalid">{{getErrorMessage('mensaje','Ingrese un mensaje')}}</mat-error>
             </mat-form-field>
    
 
-        <!-- Submit -->
-        <div class="button">
-            <button mat-button color="primary">Submit</button>
-        </div>
+            <!-- Submit -->
+            <div class="button mt-4 d-flex justify-content-center">
+                <button mat-button color="primary" type="submit" class="btn btn-success ">Submit</button>
+            </div>
     </form>
